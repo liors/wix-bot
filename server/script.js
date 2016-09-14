@@ -55,12 +55,12 @@ module.exports = new Script({
                         const normalizedkeywords = upperText.split("I'M LOOKING FOR")[1].trim();
                         console.log(normalizedkeywords);
                         console.log(_.keys(dataService));
-                        const link = dataService.getImageFor(normalizedkeywords);
-                        console.log('got a link.... ' + link);
+                        const links = dataService.getImageFor(normalizedkeywords);
+                        console.log('got a link.... ' + links);
 
                         var result = {
                             text: 'I found something check it out',
-                            link: link[0].src
+                            links: links
                         };
 
                         return bot.say(JSON.stringify(result)).then(()=> 'speak');
