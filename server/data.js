@@ -19,7 +19,6 @@ let Data = {
         // split
         var wordlist = keyword.split(' ');
         console.log('before   => ' + wordlist);
-        console.log('size   => ' + wordlist.length);
         var stopwords = [ "a", "about", "above", "accordingly", "after",
             "again", "against", "ah", "all", "also", "although", "always", "am", "among", "amongst", "an",
             "and", "any", "anymore", "anyone", "are", "as", "at", "away", "be", "been",
@@ -41,13 +40,13 @@ let Data = {
             "were", "what", "whatever", "when", "where", "which", "while", "who",
             "whom", "whomever", "whose", "why", "with", "within", "without", "would",
             "yes", "your", "yours", "yourself", "yourselves", ",", ";", "?", ".", "$", " ", "example", "using"];
-
-        console.log('stopwords size   => ' + stopwords.length);
-        //iterate over the total words and remove the stopwords
         for(var i=0; i<wordlist.length; i++) {
             console.log('checking if ' + wordlist[i] + ' is a stopword');
             if (isStopword(stopwords, wordlist[i])) {
+                console.log('it is -  removing ' + wordlist[i] + ' for the search');
                 wordlist.splice(i, 1);
+            } else {
+                console.log('it is not keeping ' + wordlist[i] + ' for the search');
             }
         }
         console.log('images =>' + imagesSources.length);
@@ -56,15 +55,16 @@ let Data = {
 
         var results = [];
         _.forEach(wordlist, (word)=> {
-            results.push(getImg(imagesSources, word))
+            const resultsForWord = getImgs(imagesSources, word);
+            results = _.union(results, resultsForWord);
         });
 
         return results;
     }
 };
 
-function getImg (imagesSources, keyword) {
-    return _.find(imagesSources, (img) => {
+function getImgs (imagesSources, keyword) {
+    return _.filter(imagesSources, (img) => {
         if (_.includes(img.title.toUpperCase(), keyword)) {
             console.log(`title: ${img.title.toUpperCase()}, keyword ${keyword}`);
             return img;
