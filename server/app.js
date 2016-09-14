@@ -4,6 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const path = require('path');
+const cors = require('cors');
+
 
 const smoochBot = require('smooch-bot');
 const MemoryStore = smoochBot.MemoryStore;
@@ -11,12 +13,13 @@ const MemoryLock = smoochBot.MemoryLock;
 const Bot = smoochBot.Bot;
 const StateMachine = smoochBot.StateMachine;
 const script = require('./script');
-const _ = require('lodash');
+const data = require('./data');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../build')));
+app.use(cors());
 
 app.get('/', function(req, res) {
     res.render('index');
@@ -67,6 +70,10 @@ app.post('/bot/emit', (request, response)=> {
             console.error(err.stack);
         });
 
+});
+
+app.post('/images', (request, response) => {
+    data.set(request.body.images);
 });
 
 module.exports = app;
