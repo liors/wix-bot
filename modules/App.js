@@ -23,8 +23,9 @@ export default class App extends React.Component {
         })
         .then(text => {
             let messages = this.state.messages;
+            var msg = JSON.parse(text);
             messages.push({
-                text
+                text: msg.text
             });
             this.setState({
                 messages: messages

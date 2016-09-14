@@ -13,7 +13,7 @@ const MemoryLock = smoochBot.MemoryLock;
 const Bot = smoochBot.Bot;
 const StateMachine = smoochBot.StateMachine;
 const script = require('./script');
-const data = require('./data');
+const dataServcie = require('./data');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -73,7 +73,8 @@ app.post('/bot/emit', (request, response)=> {
 });
 
 app.post('/images', (request, response) => {
-    data.set(request.body.images);
+    dataServcie.set(request.body.images);
+    response.send('ok');
 });
 
 module.exports = app;

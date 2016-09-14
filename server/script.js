@@ -4,7 +4,7 @@ const _ = require('lodash');
 const Script = require('smooch-bot').Script;
 const scriptRules = require('./script.json');
 const imageRecognition = require('./imageRecognition');
-const data = require('./data');
+const dataService = require('./data');
 
 module.exports = new Script({
     processing: {
@@ -13,8 +13,10 @@ module.exports = new Script({
 
     start: {
         receive: (bot) => {
-            return bot.say(scriptRules['BOT'])
-                .then(() => 'speak');
+            var data = {
+                text: scriptRules['BOT']
+            }
+            return bot.say(JSON.stringify(data)).then(() => 'speak');
         }
     },
 
@@ -49,19 +51,28 @@ module.exports = new Script({
 
                 if (!_.has(scriptRules, upperText)) {
                     if (upperText.startsWith("I'M LOOKING FOR")) {
+                        console.log(upperText);
                         const normalizedkeywords = upperText.split("I'M LOOKING FOR")[1].trim();
-                        const link = data.getImageFor(normalizedkeywords);//'Designer Living Room');
+                        console.log(normalizedkeywords);
+                        console.log(_.keys(dataService));
+                        const link = dataService.getImageFor(normalizedkeywords);
                         console.log('got a link.... ' + link);
 
+                        var result = {
+                            text: 'I found something check it out',
+                            link: link[0].src
+                        };
 
-
-                        return bot.say('I found something check it out! <a href=' + link.src + '>link.src</a>').then(()=> 'speak');
+                        return bot.say(JSON.stringify(result)).then(()=> 'speak');
                         //return imageRecognition.process(upperText.split("I'M LOOKING FOR")[1].split(' ')).then((data) => {
 
                         //});
 
                     } else {
-                        return bot.say(`I didn't understand that.`).then(() => 'speak');
+                        var data = {
+                            text: 'I did not understand that.'
+                        }
+                        return bot.say(JSON.stringify(data)).then(() => 'speak');
                     }
                 }
 
@@ -75,7 +86,10 @@ module.exports = new Script({
                 _.each(lines, function (line) {
                     line = line.trim();
                     p = p.then(function () {
-                        return bot.say(line);
+                        var data = {
+                            text: line
+                        }
+                        return bot.say(JSON.stringify(data));
                     });
                 })
 

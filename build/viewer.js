@@ -13,9 +13,6 @@ function createControllers (controllerConfigs) {
 var controller = function () {
     return {
         start: function start($w) {
-            debugger;
-
-
             const bot = $w('@wix-bot');
             if (bot.length > 0) {
                 bot.show();

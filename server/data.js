@@ -6,10 +6,12 @@ let imagesSources;
 let Data = {
     set: (images) => {
         imagesSources = images;
+        console.log('got images ' + images.length + ' images');
 
     },
 
     getImageFor: (keyword) => {
+        console.log('got a keyword   => ' + keyword);
         // dump non-words
         keyword = keyword.replace(/[^\w]/g, ' ');
         // dump multiple white-space
