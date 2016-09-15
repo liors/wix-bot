@@ -51,10 +51,14 @@ module.exports = new Script({
 
                 if (!_.has(scriptRules, upperText)) {
                     if (upperText.startsWith("I'M LOOKING FOR")) {
+                        var data = {
+                            text: 'Looking...'
+                        }
+                        return bot.say(JSON.stringify(data)).then(() => 'speak');
+                    } else if (upperText.startsWith("LOOKING ... I'M LOOKING FOR")) {
                         console.log(upperText);
-                        const normalizedkeywords = upperText.split("I'M LOOKING FOR")[1].trim();
+                        const normalizedkeywords = upperText.split("LOOKING ... I'M LOOKING FOR")[1].trim();
                         console.log(normalizedkeywords);
-                        console.log(_.keys(dataService));
                         const links = dataService.getImageFor(normalizedkeywords);
                         console.log('got a link.... ' + links);
 
@@ -64,10 +68,6 @@ module.exports = new Script({
                         };
 
                         return bot.say(JSON.stringify(result)).then(()=> 'speak');
-                        //return imageRecognition.process(upperText.split("I'M LOOKING FOR")[1].split(' ')).then((data) => {
-
-                        //});
-
                     } else {
                         var data = {
                             text: 'I did not understand that.'

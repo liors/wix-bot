@@ -35,19 +35,7 @@ var controller = function () {
                     .then(text => {
 
                     });
-
-
-
-
-                //wix.navigate.to('/page2');
             }
-
-            /*
-            const img = $w('@image');
-            if (img.length > 0) {
-                img.url = images[2].url
-            }
-            */
         }
     }
 };

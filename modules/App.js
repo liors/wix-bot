@@ -24,12 +24,48 @@ export default class App extends React.Component {
         .then(text => {
             let messages = this.state.messages;
             var msg = JSON.parse(text);
-            messages.push({
-                text: msg.text
-            });
-            this.setState({
-                messages: messages
-            });
+
+            if (msg.text === 'Looking...') {
+                messages.push({
+                    text: msg.text,
+                    links: []
+                });
+                this.setState({
+                    messages: messages
+                });
+
+
+                fetch('//localhost:8000/bot/emit/', {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    }),
+                    body: JSON.stringify({ userText: 'Looking ... '+ data.text })
+                })
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(text => {
+                        let messages = this.state.messages;
+                        debugger;
+                        var msg = JSON.parse(text);
+                        messages.push({
+                            text: msg.text,
+                            links: msg.links || []
+                        });
+                        this.setState({
+                            messages: messages
+                        });
+                    });
+            } else {
+                messages.push({
+                    text: msg.text,
+                    links: msg.links || []
+                });
+                this.setState({
+                    messages: messages
+                });
+            }
         });
     }
     render () {
