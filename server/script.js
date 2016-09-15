@@ -78,7 +78,7 @@ module.exports = new Script({
                             };
                         } else {
                             result = {
-                                text: 'I found something check it out',
+                                text: `I found ${_.size(links)} images. Creating you an amazing new Gallery. Wait for it...`,
                                 links: links
                             };
                         }
