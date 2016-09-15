@@ -50,7 +50,19 @@ module.exports = new Script({
                 }
 
                 if (!_.has(scriptRules, upperText)) {
-                    if (upperText.startsWith("I'M LOOKING FOR")) {
+                    if (upperText.startsWith("HI")) {
+                        var data = {
+                            text: scriptRules['HELLO']
+                        }
+                        return bot.say(JSON.stringify(data)).then(() => 'speak');
+
+                    } if (upperText.startsWith("SURE") || upperText.startsWith("YES")) {
+                        var data = {
+                            text: scriptRules['YES']
+                        }
+                        return bot.say(JSON.stringify(data)).then(() => 'speak');
+
+                    } else if (upperText.startsWith("I'M LOOKING FOR")) {
                         console.log(upperText);
                         const normalizedkeywords = upperText.split("I'M LOOKING FOR")[1].trim();
                         console.log(normalizedkeywords);
@@ -77,9 +89,6 @@ module.exports = new Script({
                 }
 
                 var response = scriptRules[upperText];
-                if (upperText === 'FIND ME AN IMAGE') {
-                    return bot.say(`I didn't find this image.`).then(() => 'speak');
-                }
                 var lines = response.split('\n');
 
                 var p = Promise.resolve();
