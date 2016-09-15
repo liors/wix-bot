@@ -49,7 +49,9 @@ let Data = {
                 console.log('it is not keeping ' + wordlist[i] + ' for the search');
             }
         }
-        console.log('images =>' + imagesSources.length);
+        if (imagesSources) {
+            console.log('images =>' + imagesSources.length);
+        }
         console.log('after   => ' + wordlist);
 
 

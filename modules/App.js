@@ -25,7 +25,8 @@ export default class App extends React.Component {
             let messages = this.state.messages;
             var msg = JSON.parse(text);
             messages.push({
-                text: msg.text
+                text: msg.text,
+                links: msg.links || []
             });
             this.setState({
                 messages: messages

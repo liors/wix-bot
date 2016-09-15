@@ -63,23 +63,27 @@ module.exports = new Script({
                         return bot.say(JSON.stringify(data)).then(() => 'speak');
 
                     } else if (upperText.startsWith("I'M LOOKING FOR")) {
-                        console.log(upperText);
+                        console.log('starting to look for keywords');
                         const normalizedkeywords = upperText.split("I'M LOOKING FOR")[1].trim();
                         console.log(normalizedkeywords);
-                        console.log(_.keys(dataService));
                         const links = dataService.getImageFor(normalizedkeywords);
                         console.log('got a link.... ' + links);
-
                         var result = {
-                            text: 'I found something check it out',
-                            links: links
+
                         };
 
+                        if (_.size(links) === 0) {
+                            result = {
+                                text: 'Could not find anything :{ please search for something else...'
+                            };
+                        } else {
+                            result = {
+                                text: 'I found something check it out',
+                                links: links
+                            };
+                        }
+
                         return bot.say(JSON.stringify(result)).then(()=> 'speak');
-                        //return imageRecognition.process(upperText.split("I'M LOOKING FOR")[1].split(' ')).then((data) => {
-
-                        //});
-
                     } else {
                         var data = {
                             text: 'I did not understand that.'
@@ -88,6 +92,8 @@ module.exports = new Script({
                     }
                 }
 
+
+                console.log('here.....');
                 var response = scriptRules[upperText];
                 var lines = response.split('\n');
 
